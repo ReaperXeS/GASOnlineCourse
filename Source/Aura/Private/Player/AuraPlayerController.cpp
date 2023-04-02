@@ -5,10 +5,18 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "GameFramework/Character.h"
+#include "Interaction/EnemyInterface.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
 	bReplicates = true;
+}
+
+void AAuraPlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+
+	CursorTrace();
 }
 
 void AAuraPlayerController::BeginPlay()
@@ -27,6 +35,31 @@ void AAuraPlayerController::BeginPlay()
 	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 	InputMode.SetHideCursorDuringCapture(false);
 	SetInputMode(InputMode);
+}
+
+void AAuraPlayerController::CursorTrace()
+{
+	FHitResult HitResult;
+	GetHitResultUnderCursor(ECC_Visibility, false, HitResult);
+
+	if (!HitResult.bBlockingHit) return;
+
+	LastEnemy = CurrentEnemy;
+	CurrentEnemy = Cast<IEnemyInterface>(HitResult.GetActor());
+
+	// If the last enemy is not the current enemy, unhighlight the last enemy and highlight the current enemy
+	if (LastEnemy != CurrentEnemy)
+	{
+		if (LastEnemy)
+		{
+			LastEnemy->UnHighlightActor();
+		}
+
+		if (CurrentEnemy)
+		{
+			CurrentEnemy->HighlightActor();
+		}
+	}
 }
 
 void AAuraPlayerController::SetupInputComponent()
