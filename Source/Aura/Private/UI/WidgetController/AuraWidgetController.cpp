@@ -9,4 +9,13 @@ void UAuraWidgetController::SetWidgetControllerParams(const FWidgetControllerPar
 	PlayerState = InWidgetControllerParams.PlayerState;
 	AbilitySystemComponent = InWidgetControllerParams.AbilitySystemComponent;
 	AttributeSet = InWidgetControllerParams.AttributeSet;
+	BindCallbacksToDependencies();
+}
+
+void UAuraWidgetController::BroadcastInitialValues()
+{
+}
+
+void UAuraWidgetController::BindCallbacksToDependencies()
+{
 }
