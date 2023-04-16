@@ -18,17 +18,27 @@ void AAuraEffectActor::OnBeginOverlap(AActor* OtherActor)
 {
 	if (InfiniteEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
 	{
-		ApplyEffectToTarget(OtherActor, InfiniteGameplayEffectClass);
+		// Apply infinite effects to target
+		for (const auto EffectClass : InfiniteGameplayEffectClasses)
+		{
+			ApplyEffectToTarget(OtherActor, EffectClass);	
+		}
 	}
 
 	if (InstantEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
 	{
-		ApplyEffectToTarget(OtherActor, InstantGameplayEffectClass);
+		for (const auto EffectClass : InstantGameplayEffectClasses)
+		{
+			ApplyEffectToTarget(OtherActor, EffectClass);	
+		}
 	}
 
 	if (DurationEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
 	{
-		ApplyEffectToTarget(OtherActor, DurationGameplayEffectClass);
+		for (const auto EffectClass : DurationGameplayEffectClasses)
+		{
+			ApplyEffectToTarget(OtherActor, EffectClass);	
+		}
 	}
 }
 
@@ -36,22 +46,34 @@ void AAuraEffectActor::OnEndOverlap(AActor* OtherActor)
 {
 	if (InfiniteEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
 	{
-		ApplyEffectToTarget(OtherActor, InfiniteGameplayEffectClass);
+		for (const auto EffectClass : InfiniteGameplayEffectClasses)
+		{
+			ApplyEffectToTarget(OtherActor, EffectClass);	
+		}
 	}
 
 	if (InstantEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
 	{
-		ApplyEffectToTarget(OtherActor, InstantGameplayEffectClass);
+		for (const auto EffectClass : InstantGameplayEffectClasses)
+		{
+			ApplyEffectToTarget(OtherActor, EffectClass);	
+		}
 	}
 
 	if (DurationEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
 	{
-		ApplyEffectToTarget(OtherActor, DurationGameplayEffectClass);
+		for (const auto EffectClass : DurationGameplayEffectClasses)
+		{
+			ApplyEffectToTarget(OtherActor, EffectClass);	
+		}
 	}
 	
 	if (InfiniteEffectRemovalPolicy == EEffectRemovalPolicy::RemoveOnEndOverlap)
 	{
-		RemoveEffectFromTarget(OtherActor, InfiniteGameplayEffectClass);
+		for (const auto EffectClass : InfiniteGameplayEffectClasses)
+		{
+			RemoveEffectFromTarget(OtherActor, EffectClass);	
+		}
 	}
 }
 
