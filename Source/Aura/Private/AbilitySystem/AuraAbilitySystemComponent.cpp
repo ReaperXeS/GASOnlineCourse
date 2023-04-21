@@ -12,22 +12,7 @@ void UAuraAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* Ability
 {
 	// Get tags from effect
 	FGameplayTagContainer Tags;
-	SpecApplied.GetAllAssetTags(Tags);
-
-	// Loop on all tags
-	for (const FGameplayTag& Tag : Tags)
-	{
-		// Check if tag is a message tag
-		// if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Message"))))
-		// {
-			// Get message from tag
-			const FString Msg = FString::Printf(TEXT("GE Tag: %s"), *Tag.ToString());
-
-			// Add on screen message
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, Msg);
-		// }
-	}
-	
-	// Add on screen message
+	SpecApplied.GetAllAssetTags(Tags);	
+	EffectAssetTags.Broadcast(Tags);
 	
 }
