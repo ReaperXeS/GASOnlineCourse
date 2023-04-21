@@ -22,6 +22,7 @@ public:
 	// Sets default values for this character's properties
 	AAuraCharacterBase();
 
+	virtual void InitAbilityActorInfo();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	FORCEINLINE UAttributeSet* GetAttributeSet() const { return AttributeSet; }
