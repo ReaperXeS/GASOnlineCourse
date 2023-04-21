@@ -3,15 +3,37 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
+#include "Engine/DataTable.h"
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "OverlayWidgetController.generated.h"
 
+class UAuraUserWidget;
 struct FOnAttributeChangeData;
 class UAuraAttributeSet;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangedSignature, float, NewHealth);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangedSignature, float, NewMaxHealth);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnManaChangedSignature, float, NewMana);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxManaChangedSignature, float, NewMaxMana);
+
+
+USTRUCT(BlueprintType)
+struct FUIWidgetRow : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayTag Tag = FGameplayTag::EmptyTag;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FText Message = FText::GetEmpty();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<UAuraUserWidget> MessageWidget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UTexture2D* Image = nullptr;
+};
 
 /**
  * 
@@ -37,7 +59,10 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
 	FOnMaxManaChangedSignature OnMaxManaChanged;
 
-protected:	
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GAS|Widget Data")
+	TObjectPtr<UDataTable> MessageWidgetDataTable;
+	
 	void OnHealthChangedCallback(const FOnAttributeChangeData& Data) const;
 	void OnMaxHealthChangedCallback(const FOnAttributeChangeData& Data) const;
 
