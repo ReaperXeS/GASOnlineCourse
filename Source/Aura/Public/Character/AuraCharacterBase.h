@@ -41,5 +41,10 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Aura|Attributes")
 	TSubclassOf<class UGameplayEffect> DefaultPrimaryAttributes;
 
-	void InitializePrimaryAttributes() const;
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Aura|Attributes")
+	TSubclassOf<class UGameplayEffect> DefaultSecondaryAttributes;
+
+	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffect, float Level) const;
+	void InitializeDefaultAttributes() const;
+	void InitializeSecondaryAttributes() const;
 };
