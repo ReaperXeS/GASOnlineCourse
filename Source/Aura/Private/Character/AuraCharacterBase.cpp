@@ -34,8 +34,13 @@ void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> Gameplay
 	check(GameplayEffect);
 
 	// Make effect spec
-	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(GameplayEffect, Level, GetAbilitySystemComponent()->MakeEffectContext());
+	FGameplayEffectContextHandle Handle = GetAbilitySystemComponent()->MakeEffectContext();
+	Handle.AddSourceObject(this);
+	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(GameplayEffect, Level, Handle);
+	
 	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+	// Set source object to self
+	
 }
 
 void AAuraCharacterBase::InitializeDefaultAttributes() const
