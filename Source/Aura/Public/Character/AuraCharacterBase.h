@@ -53,6 +53,11 @@ protected:
 	void InitializeDefaultAttributes() const;
 
 	void AddStartupAbilities() const;
+
+	UPROPERTY(EditAnywhere, Category = "Aura|Combat")
+	FName WeaponTipSocketName = "WeaponTipSocket";
+
+	virtual FVector GetCombatSocketLocation() const override;
 private:
 	UPROPERTY(EditAnywhere, Category = "Aura|Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
