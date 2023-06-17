@@ -88,6 +88,7 @@ void AAuraPlayerController::AbilityInputTagReleased(const FGameplayTag InputTag)
 	{
 		if (InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 		{
+			GetAuraAbilitySystemComponent()->AbilityInputTagReleased(InputTag);
 			ClickToMoveReleased();
 		} else if (GetAuraAbilitySystemComponent())
 		{
@@ -130,14 +131,14 @@ void AAuraPlayerController::AutoRun()
 
 void AAuraPlayerController::ClickToMoveHeld()
 {
-	if (!bTargeting)
+	if (bTargeting || bShiftKeyDown)
+	{
+		if (GetAuraAbilitySystemComponent()) GetAuraAbilitySystemComponent()->AbilityInputTagHeld(FAuraGameplayTags::Get().InputTag_LMB);
+	}
+	else
 	{
 		FollowTime += GetWorld()->GetDeltaSeconds();
-
-		if (CursorHitResult.bBlockingHit)
-		{
-			CachedDestination = CursorHitResult.ImpactPoint;
-		}
+		if (CursorHitResult.bBlockingHit) CachedDestination = CursorHitResult.ImpactPoint;
 
 		if (APawn* ControlledPawn = GetPawn())
 		{
@@ -149,21 +150,24 @@ void AAuraPlayerController::ClickToMoveHeld()
 
 void AAuraPlayerController::ClickToMoveReleased()
 {
-	if (const APawn* ControlledPawn = GetPawn(); FollowTime <= ShortPressThreshold && ControlledPawn)
+	if (!bTargeting && !bShiftKeyDown)
 	{
-		if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
+		if (const APawn* ControlledPawn = GetPawn(); FollowTime <= ShortPressThreshold && ControlledPawn)
 		{
-			Spline->ClearSplinePoints();
-			for (const FVector& PointLoc : NavPath->PathPoints)
+			if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
 			{
-				Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
+				Spline->ClearSplinePoints();
+				for (const FVector& PointLoc : NavPath->PathPoints)
+				{
+					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
+				}
+				CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
+				bAutoRunning = true;
 			}
-			bAutoRunning = true;
-			CachedDestination = NavPath->PathPoints.IsEmpty() ? FVector() : NavPath->PathPoints.Last();
 		}
+		FollowTime = 0.f;
+		bTargeting = false;
 	}
-	FollowTime = 0.f;
-	bTargeting = false;
 }
 
 UAuraAbilitySystemComponent* AAuraPlayerController::GetAuraAbilitySystemComponent()
