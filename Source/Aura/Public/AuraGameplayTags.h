@@ -41,6 +41,11 @@ struct FAuraGameplayTags
  /* Meta Tags                    */
  /********************************/
  FGameplayTag MetaTag_Damage;
+
+ /********************************/
+ /* Effect Tags                  */
+ /********************************/
+ FGameplayTag Effects_HitReact;
 private:
  static FAuraGameplayTags Instance;
 };

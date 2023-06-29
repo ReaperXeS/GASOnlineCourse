@@ -44,5 +44,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	/*
 	 * Meta Tags
 	 */
-	Instance.MetaTag_Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("MetaTag.Damage"),FString("Meta Tag for Damage"));	
+	Instance.MetaTag_Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("MetaTag.Damage"),FString("Meta Tag for Damage"));
+
+	/*
+	 * Effect Tags
+	 */
+	Instance.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"),FString("Tag granted when hit by an attack"));
 }

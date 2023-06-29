@@ -14,6 +14,7 @@
 class UAbilitySystemComponent;
 class UAttributeSet;
 class UGameplayAbility;
+class UAnimMontage;
 
 UCLASS(Abstract)
 class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
@@ -57,7 +58,15 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Aura|Combat")
 	FName WeaponTipSocketName = "WeaponTipSocket";
 
+
+	/**** Combat Interface ****/
 	virtual FVector GetCombatSocketLocation() const override;
+
+	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+	/**** End Combat Interface ****/
+
+	UPROPERTY(EditAnywhere, Category = "Aura|Combat")
+	TObjectPtr<UAnimMontage> HitReactMontage;
 private:
 	UPROPERTY(EditAnywhere, Category = "Aura|Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;

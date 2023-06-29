@@ -81,3 +81,22 @@ void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* World
 		ApplyGameEffectFromAttributes(Level, AbilitySystemComponent, AvatarActor, CharacterClassInfo->GetVitalAttributes());
 	}
 }
+
+void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* AbilitySystemComponent)
+{
+	// Access AuraGameBaseMode to get Character Class Info and Common Abilities
+	if (const AAuraGameModeBase* GameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject)))
+	{
+		const UCharacterClassInfo* CharacterClassInfo = GameMode->GetCharacterClassInfo();
+		check(CharacterClassInfo);
+
+		// Loop through Common Abilities and give them to ability system component
+		for (const TSubclassOf<UGameplayAbility>& CommonAbility : CharacterClassInfo->GetCommonAbilities())
+		{
+			if (UGameplayAbility* Ability = CommonAbility.GetDefaultObject())
+			{
+				AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(Ability, 1));
+			}
+		}
+	}
+}
