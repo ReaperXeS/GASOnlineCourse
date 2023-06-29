@@ -15,6 +15,7 @@ class UAbilitySystemComponent;
 class UAttributeSet;
 class UGameplayAbility;
 class UAnimMontage;
+class UMaterialInstance;
 
 UCLASS(Abstract)
 class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
@@ -72,6 +73,21 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Aura|Combat")
 	TObjectPtr<UAnimMontage> HitReactMontage;
+
+ 	/** Dissolve Effects **/
+	void Dissolve();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartDissolveMeshTimeLine(UMaterialInstanceDynamic* DynamicMaterialInstance);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartDissolveWeaponTimeLine(UMaterialInstanceDynamic* DynamicMaterialInstance);
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UMaterialInstance> MeshDissolveMaterialInstance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
 private:
 	UPROPERTY(EditAnywhere, Category = "Aura|Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;

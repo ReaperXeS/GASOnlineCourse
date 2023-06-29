@@ -87,6 +87,23 @@ void AAuraCharacterBase::Die()
 	MultiCastHandleDeath();
 }
 
+void AAuraCharacterBase::Dissolve()
+{
+	if (IsValid(MeshDissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMaterial = UMaterialInstanceDynamic::Create(MeshDissolveMaterialInstance, this);
+		GetMesh()->SetMaterial(0, DynamicMaterial);
+		StartDissolveMeshTimeLine(DynamicMaterial);
+	}
+
+	if (IsValid(WeaponDissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMaterial = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstance, this);
+		Weapon->SetMaterial(0, DynamicMaterial);
+		StartDissolveWeaponTimeLine(DynamicMaterial);
+	}
+}
+
 void AAuraCharacterBase::MultiCastHandleDeath_Implementation()
 {
 	// Drop weapon
@@ -102,5 +119,7 @@ void AAuraCharacterBase::MultiCastHandleDeath_Implementation()
 
 	// Prevent collision with capsule
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	Dissolve();
 }
 
