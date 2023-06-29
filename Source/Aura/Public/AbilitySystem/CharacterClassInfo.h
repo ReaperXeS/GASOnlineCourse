@@ -31,7 +31,8 @@ UCLASS()
 class AURA_API UCharacterClassInfo : public UDataAsset
 {
 	GENERATED_BODY()
-public:
+
+protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
 	TMap<ECharacterClass, FCharacterClassDefaultInfo> CharacterClassInformation;
 
@@ -40,7 +41,12 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults")
 	TSubclassOf<UGameplayEffect> VitalAttributes;
+public:
+	
+	FORCEINLINE TSubclassOf<UGameplayEffect> GetSecondaryAttributes() const { return SecondaryAttributes; }
+	FORCEINLINE TSubclassOf<UGameplayEffect> GetVitalAttributes() const { return VitalAttributes; }
 
+	TSubclassOf<UGameplayEffect> GetPrimaryAttributes(const ECharacterClass CharacterClass);
 	FCharacterClassDefaultInfo GetClassDefaultInfo(ECharacterClass CharacterClass);
 	
 };
