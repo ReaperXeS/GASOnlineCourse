@@ -63,7 +63,12 @@ protected:
 	virtual FVector GetCombatSocketLocation() const override;
 
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+
+	virtual void Die();
 	/**** End Combat Interface ****/
+
+	UFUNCTION(NetMulticast, Reliable)
+	virtual void MultiCastHandleDeath();
 
 	UPROPERTY(EditAnywhere, Category = "Aura|Combat")
 	TObjectPtr<UAnimMontage> HitReactMontage;
