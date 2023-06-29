@@ -96,6 +96,17 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	} else if (Data.EvaluatedData.Attribute == GetManaAttribute())
 	{
 		SetMana(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
+	} else if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
+	{
+		if (const float LocalIncomingDamage = GetIncomingDamage(); LocalIncomingDamage > 0.f)
+		{
+			// Reset value to 0 for next execution
+			SetIncomingDamage(0.f);
+			
+			const float NewHealth = GetHealth() - LocalIncomingDamage;
+			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
+			const bool bFatal = NewHealth <= 0.f;
+		}
 	}
 }
 

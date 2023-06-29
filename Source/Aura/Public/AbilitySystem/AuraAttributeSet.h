@@ -195,6 +195,18 @@ public:
 	UFUNCTION()
 	void OnRep_Mana(const FGameplayAttributeData& OldMana) const;
 
+	/************************************/
+	/*			Meta Attributes			*/
+	/************************************/
+	/* Meta Attributes are used to store temporary values that are used in calculations. 
+	 * They are not replicated and are not saved. They are only used to store temporary values.
+	 * They are not used to store permanent values.
+	 */
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage);
+
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Properties) const;
 		
