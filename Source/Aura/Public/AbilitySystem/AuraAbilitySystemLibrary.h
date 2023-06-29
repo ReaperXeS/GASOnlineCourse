@@ -6,6 +6,7 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Player/AuraPlayerState.h"
 #include "UI/WidgetController/AuraWidgetController.h"
+#include "CharacterClassInfo.h"
 #include "AuraAbilitySystemLibrary.generated.h"
 
 class UAttributeMenuWidgetController;
@@ -26,4 +27,8 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Aura Ability System Library | Attribute Menu Widget Controller")
 	static UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const UObject* WorldContextObject);
+	static void ApplyGameEffectFromAttributes(float Level, UAbilitySystemComponent* AbilitySystemComponent, const AActor* AvatarActor, TSubclassOf<UGameplayEffect> GameplayEffect);
+
+	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|CharacterClassDefaults")
+	static void InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* AbilitySystemComponent);
 };
