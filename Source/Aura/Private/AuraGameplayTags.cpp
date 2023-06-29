@@ -40,4 +40,9 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	Instance.InputTag_3 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.3"),FString("Input Tag for 3 key"));
 	Instance.InputTag_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.4"),FString("Input Tag for 4 key"));
 	Instance.InputTag_5 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.5"),FString("Input Tag for 5 key"));
+	
+	/*
+	 * Meta Tags
+	 */
+	Instance.MetaTag_Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("MetaTag.Damage"),FString("Meta Tag for Damage"));	
 }
