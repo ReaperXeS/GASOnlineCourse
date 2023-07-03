@@ -53,6 +53,6 @@ public:
 	TSubclassOf<UGameplayEffect> GetPrimaryAttributes(const ECharacterClass CharacterClass);
 	FCharacterClassDefaultInfo GetClassDefaultInfo(ECharacterClass CharacterClass);
 
-	
-	
+	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults|Damage")
+	TObjectPtr<UCurveTable> DamageCalculationCoefficients;
 };

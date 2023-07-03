@@ -68,35 +68,35 @@ void UAuraAbilitySystemLibrary::ApplyGameEffectFromAttributes(const float Level,
 
 void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* AbilitySystemComponent)
 {
-	// Access AuraGameBaseMode to get Character Class Info
-	if (const AAuraGameModeBase* GameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject)))
-	{
-		const AActor* AvatarActor = AbilitySystemComponent->GetAvatarActor();
-		
-		UCharacterClassInfo* CharacterClassInfo = GameMode->GetCharacterClassInfo();
-		check(CharacterClassInfo);
+	UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
+	check(CharacterClassInfo);
 
-		ApplyGameEffectFromAttributes(Level, AbilitySystemComponent, AvatarActor, CharacterClassInfo->GetPrimaryAttributes(CharacterClass));
-		ApplyGameEffectFromAttributes(Level, AbilitySystemComponent, AvatarActor, CharacterClassInfo->GetSecondaryAttributes());
-		ApplyGameEffectFromAttributes(Level, AbilitySystemComponent, AvatarActor, CharacterClassInfo->GetVitalAttributes());
-	}
+	const AActor* AvatarActor = AbilitySystemComponent->GetAvatarActor();
+	ApplyGameEffectFromAttributes(Level, AbilitySystemComponent, AvatarActor, CharacterClassInfo->GetPrimaryAttributes(CharacterClass));
+	ApplyGameEffectFromAttributes(Level, AbilitySystemComponent, AvatarActor, CharacterClassInfo->GetSecondaryAttributes());
+	ApplyGameEffectFromAttributes(Level, AbilitySystemComponent, AvatarActor, CharacterClassInfo->GetVitalAttributes());
 }
 
 void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* AbilitySystemComponent)
 {
-	// Access AuraGameBaseMode to get Character Class Info and Common Abilities
-	if (const AAuraGameModeBase* GameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject)))
-	{
-		const UCharacterClassInfo* CharacterClassInfo = GameMode->GetCharacterClassInfo();
-		check(CharacterClassInfo);
+	const UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
+	check(CharacterClassInfo);
 
-		// Loop through Common Abilities and give them to ability system component
-		for (const TSubclassOf<UGameplayAbility>& CommonAbility : CharacterClassInfo->GetCommonAbilities())
+	// Loop through Common Abilities and give them to ability system component
+	for (const TSubclassOf<UGameplayAbility>& CommonAbility : CharacterClassInfo->GetCommonAbilities())
+	{
+		if (UGameplayAbility* Ability = CommonAbility.GetDefaultObject())
 		{
-			if (UGameplayAbility* Ability = CommonAbility.GetDefaultObject())
-			{
-				AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(Ability, 1));
-			}
+			AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(Ability, 1));
 		}
 	}
+}
+
+UCharacterClassInfo* UAuraAbilitySystemLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)
+{
+	if (const AAuraGameModeBase* GameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject)))
+	{		
+		return GameMode->GetCharacterClassInfo();
+	}
+	return nullptr;
 }
