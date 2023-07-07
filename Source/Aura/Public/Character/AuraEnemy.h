@@ -28,7 +28,7 @@ public:
 
 	/** ICombatInterface */
 	virtual int32 GetPlayerLevel() const override;
-	virtual void Die();
+	virtual void Die() override;
 	/** End ICombatInterface */
 
 	UPROPERTY(BlueprintAssignable)
