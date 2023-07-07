@@ -7,6 +7,7 @@
 #include "CharacterClassInfo.generated.h"
 
 class UGameplayEffect;
+class UGameplayAbility;
 
 UENUM(BlueprintType)
 enum class ECharacterClass : uint8
@@ -37,16 +38,21 @@ protected:
 	TMap<ECharacterClass, FCharacterClassDefaultInfo> CharacterClassInformation;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults")
+	TArray<TSubclassOf<UGameplayAbility>> CommonAbilities;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults")
 	TSubclassOf<UGameplayEffect> SecondaryAttributes;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults")
 	TSubclassOf<UGameplayEffect> VitalAttributes;
 public:
-	
+	FORCEINLINE TArray<TSubclassOf<UGameplayAbility>> GetCommonAbilities() const { return CommonAbilities; }
 	FORCEINLINE TSubclassOf<UGameplayEffect> GetSecondaryAttributes() const { return SecondaryAttributes; }
 	FORCEINLINE TSubclassOf<UGameplayEffect> GetVitalAttributes() const { return VitalAttributes; }
 
 	TSubclassOf<UGameplayEffect> GetPrimaryAttributes(const ECharacterClass CharacterClass);
 	FCharacterClassDefaultInfo GetClassDefaultInfo(ECharacterClass CharacterClass);
-	
+
+	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults|Damage")
+	TObjectPtr<UCurveTable> DamageCalculationCoefficients;
 };

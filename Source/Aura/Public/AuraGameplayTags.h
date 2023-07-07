@@ -36,6 +36,16 @@ struct FAuraGameplayTags
  FGameplayTag InputTag_3;
  FGameplayTag InputTag_4;
  FGameplayTag InputTag_5;
+
+ /********************************/
+ /* Meta Tags                    */
+ /********************************/
+ FGameplayTag MetaTag_Damage;
+
+ /********************************/
+ /* Effect Tags                  */
+ /********************************/
+ FGameplayTag Effects_HitReact;
 private:
  static FAuraGameplayTags Instance;
 };
