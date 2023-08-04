@@ -41,7 +41,9 @@ struct FAuraGameplayTags
  /* Meta Tags                    */
  /********************************/
  FGameplayTag MetaTag_Damage;
+ FGameplayTag Damage_Fire;
 
+ TArray<FGameplayTag> DamageTypes;
  /********************************/
  /* Effect Tags                  */
  /********************************/
