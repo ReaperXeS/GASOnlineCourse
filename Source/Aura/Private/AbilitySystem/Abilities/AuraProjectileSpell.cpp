@@ -22,7 +22,6 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& TargetLocation)
 		SpawnTransform.SetLocation(SocketLocation);
 		// Set the Projectile Rotation
 		FRotator Rotation = (TargetLocation - SocketLocation).Rotation();
-		Rotation.Pitch = 0.f; // Parallel to the ground
 		SpawnTransform.SetRotation(Rotation.Quaternion());
 
 		AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(ProjectileClass, SpawnTransform, GetOwningActorFromActorInfo(),Cast<APawn>(GetOwningActorFromActorInfo()), ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
